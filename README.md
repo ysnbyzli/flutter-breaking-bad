@@ -9,14 +9,14 @@ Hello everyone, I wanted to do a project in my flutter adventure that I just sta
 
 ## Goals
 
-- [] Character search
-- [] Character detail
+- [ ] Character search
+- [ ] Character detail
 
-## Packages
+## Packages  
 - Dio
 
 
-## Screens
+## Screens
 |   |  |
 | :---:   | :-: | 
 | Home | ![home](./lib/screenshot/home.png) |
