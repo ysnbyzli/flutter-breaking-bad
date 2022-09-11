@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:project/model/character.dart';
+import 'package:project/theme/color_theme.dart';
 import 'package:project/view_model/home_view_model.dart';
 
 class Home extends StatefulWidget {
@@ -33,10 +34,6 @@ class _HomeState extends HomeViewModel {
               ),
               itemBuilder: (BuildContext context, int index) {
                 return Card(
-                  elevation: 5,
-                  shape: BeveledRectangleBorder(
-                    borderRadius: BorderRadius.circular(10.0),
-                  ),
                   child: Stack(fit: StackFit.expand, children: [
                     ClipRRect(
                       borderRadius: BorderRadius.circular(10.0),
@@ -130,10 +127,10 @@ enum Status { Deceased, Alive }
 
 Color? getStatusColor(String status) {
   if (status == Status.Alive.name) {
-    return Colors.green;
+    return ThemeColor.darkGreen400;
   } else if (status == Status.Deceased.name) {
-    return Colors.red;
+    return ThemeColor.red;
   } else {
-    return Colors.amber;
+    return ThemeColor.rise;
   }
 }
