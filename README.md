@@ -1,16 +1,22 @@
-# project
+# Flutter - Breaking Bad
 
-A new Flutter project.
+Hello everyone, I wanted to do a project in my flutter adventure that I just started learning. I created a project with the Breaking Bad api, which is offered to us developers for free.
 
-## Getting Started
 
-This project is a starting point for a Flutter application.
+## Features
 
-A few resources to get you started if this is your first Flutter project:
+- Listing the characters
 
-- [Lab: Write your first Flutter app](https://docs.flutter.dev/get-started/codelab)
-- [Cookbook: Useful Flutter samples](https://docs.flutter.dev/cookbook)
+## Goals
 
-For help getting started with Flutter development, view the
-[online documentation](https://docs.flutter.dev/), which offers tutorials,
-samples, guidance on mobile development, and a full API reference.
+- [] Character search
+- [] Character detail
+
+## Packages
+- Dio
+
+
+## Screens
+|   |  |
+| :---:   | :-: | 
+| Home | ![home](./lib/screenshot/home.png) |
