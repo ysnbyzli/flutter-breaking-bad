@@ -10,7 +10,7 @@ Hello everyone, I wanted to do a project in my flutter adventure that I just sta
 ## Goals
 
 - [x] Splash screen
-- [ ] Character search
+- [x] Character search
 - [ ] Character detail
 
 ## Packages  
@@ -22,3 +22,4 @@ Hello everyone, I wanted to do a project in my flutter adventure that I just sta
 | :---:   | :-: | 
 | Splash | <img src="./lib/screenshot/splash.png"  width="350" height="700"> |
 | Home | <img src="./lib/screenshot/home.png"  width="350" height="700">  |
+| Search | <img src="./lib/screenshot/search.png"  width="350" height="700">  |
