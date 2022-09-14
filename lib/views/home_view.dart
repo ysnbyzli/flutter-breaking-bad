@@ -1,3 +1,5 @@
+import 'dart:collection';
+
 import 'package:flutter/material.dart';
 import 'package:project/model/character.dart';
 import 'package:project/theme/color_theme.dart';
@@ -13,63 +15,83 @@ class Home extends StatefulWidget {
 class _HomeState extends HomeViewModel {
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-        appBar: AppBar(
-          centerTitle: false,
-          title: const Text("Breaking Bad"),
-          actions: [
-            _LoadingView(
-              isVisible: isLoading,
-            )
-          ],
-        ),
-        body: Padding(
-          padding: const EdgeInsets.all(8.0),
-          child: GridView.builder(
-              itemCount: characters?.length,
-              gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
-                crossAxisCount: 2,
-                crossAxisSpacing: 10,
-                mainAxisSpacing: 5,
+    return Scrollbar(
+        child: NestedScrollView(
+      floatHeaderSlivers: true,
+      headerSliverBuilder: (context, innerBoxIsScrolled) {
+        return [
+          SliverAppBar(
+            floating: true,
+            snap: true,
+            flexibleSpace: const FlexibleSpaceBar(
+              title: Text("Breaking Bad"),
+              centerTitle: false,
+              titlePadding: EdgeInsets.symmetric(horizontal: 20, vertical: 15),
+            ),
+            actions: [
+              _LoadingView(
+                isVisible: isLoading,
               ),
-              itemBuilder: (BuildContext context, int index) {
-                return Card(
-                  child: Stack(fit: StackFit.expand, children: [
-                    ClipRRect(
-                      borderRadius: BorderRadius.circular(10.0),
-                      child: Image.network(
-                        characters?[index].img ?? "",
-                        fit: BoxFit.cover,
-                      ),
+              IconButton(
+                onPressed: () {
+                  showSearch(
+                    context: context,
+                    delegate: CharacterSearch(characters),
+                  );
+                },
+                icon: const Icon(Icons.search),
+              )
+            ],
+          )
+        ];
+      },
+      body: Scaffold(
+        body: GridView.builder(
+            itemCount: characters?.length,
+            gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
+              crossAxisCount: 2,
+              crossAxisSpacing: 10,
+              mainAxisSpacing: 5,
+            ),
+            itemBuilder: (BuildContext context, int index) {
+              return Card(
+                child: Stack(fit: StackFit.expand, children: [
+                  ClipRRect(
+                    borderRadius: BorderRadius.circular(10.0),
+                    child: Image.network(
+                      characters?[index].img ?? "",
+                      fit: BoxFit.cover,
                     ),
-                    _StatusWidget(character: characters?[index]),
-                    Positioned(
-                      left: 10,
-                      bottom: 10,
-                      child: Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [
-                          Text(
-                            characters?[index].name ?? "",
-                            style: Theme.of(context)
-                                .textTheme
-                                .bodyText1
-                                ?.copyWith(color: Colors.white),
-                          ),
-                          Text(
-                            characters?[index].nickname ?? "",
-                            style: Theme.of(context)
-                                .textTheme
-                                .labelMedium
-                                ?.copyWith(color: Colors.white),
-                          ),
-                        ],
-                      ),
+                  ),
+                  _StatusWidget(character: characters?[index]),
+                  Positioned(
+                    left: 10,
+                    bottom: 10,
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        Text(
+                          characters?[index].name ?? "",
+                          style: Theme.of(context)
+                              .textTheme
+                              .bodyText1
+                              ?.copyWith(color: Colors.white),
+                        ),
+                        Text(
+                          characters?[index].nickname ?? "",
+                          style: Theme.of(context)
+                              .textTheme
+                              .labelMedium
+                              ?.copyWith(color: Colors.white),
+                        ),
+                      ],
                     ),
-                  ]),
-                );
-              }),
-        ));
+                  ),
+                ]),
+              );
+            }),
+      ),
+    ));
   }
 }
 
@@ -114,9 +136,7 @@ class _LoadingView extends StatelessWidget {
         ? const Padding(
             padding: EdgeInsets.only(right: 8.0),
             child: Center(
-              child: CircularProgressIndicator(
-                backgroundColor: Colors.white,
-              ),
+              child: CircularProgressIndicator(),
             ),
           )
         : const SizedBox.shrink();
@@ -132,5 +152,69 @@ Color? getStatusColor(String status) {
     return ThemeColor.red;
   } else {
     return ThemeColor.rise;
+  }
+}
+
+class CharacterSearch extends SearchDelegate<Character> {
+  final List<Character>? characters;
+
+  CharacterSearch(this.characters);
+
+  @override
+  List<Widget>? buildActions(BuildContext context) {
+    return [
+      IconButton(
+        onPressed: () {
+          query = "";
+        },
+        icon: const Icon(Icons.clear),
+      )
+    ];
+  }
+
+  @override
+  Widget? buildLeading(BuildContext context) {}
+
+  @override
+  Widget buildResults(BuildContext context) {
+    return Container();
+  }
+
+  @override
+  Widget buildSuggestions(BuildContext context) {
+    if (query.length < 3) {
+      return Column(
+        mainAxisAlignment: MainAxisAlignment.center,
+        children: const [
+          Center(
+            child: Text(
+              "Search term must be longer than two letters.",
+            ),
+          )
+        ],
+      );
+    }
+    final results = characters?.where((element) =>
+        element.name?.toLowerCase().contains(query.toLowerCase()) ?? false);
+
+    if (results?.length == 0) {
+      return Column(
+        mainAxisAlignment: MainAxisAlignment.center,
+        children: const [Center(child: Text("No Results Found."))],
+      );
+    } else {
+      return ListView(
+        children: results
+                ?.map((e) => ListTile(
+                    title: Text(e.name ?? ""),
+                    subtitle: Text(e.nickname ?? ""),
+                    trailing: IconButton(
+                      icon: const Icon(Icons.chevron_right_outlined),
+                      onPressed: () {},
+                    )))
+                .toList() ??
+            [],
+      );
+    }
   }
 }

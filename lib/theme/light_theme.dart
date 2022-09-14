@@ -6,20 +6,21 @@ class LightTheme {
 
   LightTheme() {
     theme = ThemeData(
-        appBarTheme: const AppBarTheme(
-          backgroundColor: ThemeColor.darkGreen200,
-          shadowColor: ThemeColor.darkGreen,
-          elevation: 0,
-          toolbarHeight: 80,
+      appBarTheme: const AppBarTheme(
+        backgroundColor: ThemeColor.darkGreen200,
+        shadowColor: ThemeColor.darkGreen,
+        elevation: 0,
+        toolbarHeight: 80,
+      ),
+      cardTheme: CardTheme(
+        shadowColor: ThemeColor.darkGreen,
+        elevation: 8,
+        shape: BeveledRectangleBorder(
+          borderRadius: BorderRadius.circular(10.0),
         ),
-        cardTheme: CardTheme(
-          shadowColor: ThemeColor.darkGreen,
-          elevation: 8,
-          shape: BeveledRectangleBorder(
-            borderRadius: BorderRadius.circular(10.0),
-          ),
-        ),
-        progressIndicatorTheme:
-            const ProgressIndicatorThemeData(color: ThemeColor.black));
+      ),
+      progressIndicatorTheme:
+          const ProgressIndicatorThemeData(color: Colors.white),
+    );
   }
 }
